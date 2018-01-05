@@ -1,7 +1,79 @@
 
-let fs = require('fs'),
+let fs = require('hexo-fs'),
 path = require('path'),
 _ = require('lodash');
+
+// Helper Methods :
+
+
+// copy the source from /source/_forframe to /public/forframe/projects
+let copySource = function () {
+
+    return new Promise(function (resolve, reject) {
+
+        let source = path.join(hexo.source_dir, '_forframe'),
+        target = path.join(hexo.public_dir, 'forframe', 'project');
+
+        fs.copyDir(source, target, function (e, data) {
+
+            if (e) {
+
+                reject(e);
+
+            }
+
+            resolve(data);
+
+        });
+
+    })
+
+};
+
+// read the /source/_forframe folder
+let readSource = function () {
+
+    return new Promise(function (resolve, reject) {
+
+        fs.readdir(path.join(hexo.source_dir, '_forframe'), function (e, files) {
+
+            if (e) {
+
+                reject(e);
+
+            }
+
+            resolve(files);
+
+        });
+
+    });
+
+};
+
+// get the index.js file for the project of the given name
+let getProject = function (name) {
+
+    return new Promise(function (resolve, reject) {
+
+        // the uri of the project should be here
+        let uri = path.join(hexo.source_dir, '_forframe', name, 'index.js');
+
+        fs.readFile(uri, function (e, data) {
+
+            if (e) {
+
+                reject(e);
+
+            }
+
+            resolve(data);
+
+        });
+
+    });
+
+};
 
 // generate the client system *.js file at /forframe/js/forframe.js
 hexo.extend.generator.register('forframe_client', function () {
@@ -48,50 +120,64 @@ hexo.extend.generator.register('forframe_client', function () {
 
 });
 
-// read the /source/_forframe folder
-let readSource = function () {
+hexo.extend.generator.register('forframe_pages', function (locals) {
 
-    return new Promise(function (resolve, reject) {
+    return copySource().then(function () {
 
-        fs.readdir(path.join(hexo.source_dir, '_forframe'), function (e, files) {
+        return readSource();
 
-            if (e) {
+    }).then(function (files) {
 
-                reject(e);
+        // create paths for each project
+        files = files.map(function (projectName) {
 
-            }
+                return {
 
-            resolve(files);
+                    path: path.join('forframe/projects/', projectName, 'index.html'),
+                    data: _.merge({}, locals, {
+                        data: {
+                            message: 'we have this.'
+                        }
+                    }),
+                    layout: 'forframe_project'
 
-        });
+                };
 
-    });
+            });
 
-};
+        return _.concat(files,{
 
-// get the index.js file for the project of the given name
-let getProject = function (name) {
+            path: 'forframe/projects/index.html',
+            data: _.merge(locals, {
+                data: {
 
-    return new Promise(function (resolve, reject) {
+                    message: 'looks good'
 
-        // the uri of the project should be here
-        let uri = path.join(hexo.source_dir, '_forframe', name, 'index.js');
-
-        fs.readFile(uri, 'utf-8', function (e, data) {
-
-            if (e) {
-
-                reject(e);
-
-            }
-
-            resolve(data);
+                }
+            }),
+            layout: 'forframe_project'
 
         });
 
+    }).catch (function (e) {
+
+        return {
+
+            path: 'forframe/projects/index.html',
+            data: _.merge(locals, {
+                data: {
+
+                    message: e.message
+
+                }
+            }),
+            layout: 'forframe_project'
+
+        };
+
     });
 
-};
+});
 
 // generate the index.html file at /forframe/index
 hexo.extend.generator.register('forframe_index', function (locals) {
