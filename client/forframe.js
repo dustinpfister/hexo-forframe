@@ -1,5 +1,7 @@
 var forFrame = (function () {
 
+    console.log('I am forFrame!');
+
     var ani = [];
 
     return {
@@ -14,7 +16,7 @@ var forFrame = (function () {
 
         }
 
-    }
+    };
 
 }
     ());

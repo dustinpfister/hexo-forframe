@@ -109,9 +109,9 @@ hexo.extend.generator.register('forframe_index', function (locals) {
 
 });
 
-// make a list of currently loaded animations
-hexo.extend.helper.register('ff_list', function () {
+// link to the client system
+hexo.extend.helper.register('ff_get_client', function () {
 
-    return 'yeah I am just a helper.'
+    return '<script src="/forframe/js/forframe.js"></script>'
 
 });
