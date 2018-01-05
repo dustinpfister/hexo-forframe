@@ -1,0 +1,11 @@
+{
+  "name": "hexo-forframe",
+  "version": "1.0.0",
+  "description": "Animation on a for frame basis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dustin Pfister",
+  "license": "GPL-3.0"
+}
