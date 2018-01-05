@@ -3,14 +3,57 @@ let fs = require('fs'),
 path = require('path'),
 _ = require('lodash');
 
-// generate the index.html file at /forframe/index
-hexo.extend.generator.register('forframe_index', function (locals) {
-
-    console.log(hexo);
+// generate the client system *.js file at /forframe/js/forframe.js
+hexo.extend.generator.register('forframe_client', function () {
 
     return new Promise(function (resolve, reject) {
 
-        fs.readdir(path.join(hexo.source_dir,'_forframe'), function (e, files) {
+        // the client should be here
+        let uri = path.join(hexo.base_dir, 'node_modules/hexo-forframe/client', 'forframe.js');
+
+        // get the client
+        fs.readFile(uri, function (e, data) {
+
+            if (e) {
+
+                reject(e);
+
+            }
+
+            resolve(data);
+
+        });
+
+    }).then(function (data) {
+
+        // if all goes well create the client */js file
+        // to be used
+        return {
+
+            path: 'forframe/js/forframe.js',
+            data: data
+
+        };
+
+    }).catch (function () {
+
+        return {
+
+            path: 'forframe/js/forframe.js',
+            data: 'var forFrame={};'
+
+        };
+
+    });
+
+});
+
+// read the /source/_forframe folder
+let readSource = function () {
+
+    return new Promise(function (resolve, reject) {
+
+        fs.readdir(path.join(hexo.source_dir, '_forframe'), function (e, files) {
 
             if (e) {
 
@@ -22,7 +65,14 @@ hexo.extend.generator.register('forframe_index', function (locals) {
 
         });
 
-    }).then(function (files) {
+    });
+
+};
+
+// generate the index.html file at /forframe/index
+hexo.extend.generator.register('forframe_index', function (locals) {
+
+    return readSource().then(function (files) {
 
         return {
 
