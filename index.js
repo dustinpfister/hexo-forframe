@@ -69,10 +69,38 @@ let readSource = function () {
 
 };
 
+// get the index.js file for the project of the given name
+let getProject = function (name) {
+
+    return new Promise(function (resolve, reject) {
+
+        // the uri of the project should be here
+        let uri = path.join(hexo.source_dir, '_forframe', name, 'index.js');
+
+        fs.readFile(uri, 'utf-8', function (e, data) {
+
+            if (e) {
+
+                reject(e);
+
+            }
+
+            resolve(data);
+
+        });
+
+    });
+
+};
+
 // generate the index.html file at /forframe/index
 hexo.extend.generator.register('forframe_index', function (locals) {
 
     return readSource().then(function (files) {
+
+        return getProject(files[0]);
+
+    }).then(function (ff) {
 
         return {
 
@@ -80,7 +108,7 @@ hexo.extend.generator.register('forframe_index', function (locals) {
             data: _.merge(locals, {
                 data: {
 
-                    files: files,
+                    ff: ff,
                     message: 'looks good'
 
                 }
