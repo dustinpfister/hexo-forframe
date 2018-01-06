@@ -136,7 +136,7 @@ hexo.extend.generator.register('forframe_pages', function (locals) {
                     path: path.join('forframe/projects/', projectName, 'index.html'),
                     data: _.merge({}, locals, {
                         data: {
-                            message: 'we have this.',
+                            message: 'success',
                             projectName: projectName
                         }
                     }),
@@ -152,7 +152,7 @@ hexo.extend.generator.register('forframe_pages', function (locals) {
             data: _.merge(locals, {
                 data: {
 
-                    message: 'looks good'
+                    message: 'success'
 
                 }
             }),
@@ -225,8 +225,21 @@ hexo.extend.generator.register('forframe_index', function (locals) {
 });
 
 // link to the client system
+hexo.extend.helper.register('ff_get_project', function (projectName) {
+
+    if (projectName) {
+
+        return '<script src="/forframe/project/' + projectName + '/index.js"></script>';
+
+    }
+
+    return '';
+
+});
+
+// link to the client system
 hexo.extend.helper.register('ff_get_client', function () {
 
-    return '<script src="/forframe/js/forframe.js"></script>'
+    return '<script src="/forframe/js/forframe.js"></script>';
 
 });
