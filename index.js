@@ -136,7 +136,8 @@ hexo.extend.generator.register('forframe_pages', function (locals) {
                     path: path.join('forframe/projects/', projectName, 'index.html'),
                     data: _.merge({}, locals, {
                         data: {
-                            message: 'we have this.'
+                            message: 'we have this.',
+                            projectName: projectName
                         }
                     }),
                     layout: 'forframe_project'
@@ -145,7 +146,7 @@ hexo.extend.generator.register('forframe_pages', function (locals) {
 
             });
 
-        return _.concat(files,{
+        return _.concat(files, {
 
             path: 'forframe/projects/index.html',
             data: _.merge(locals, {
