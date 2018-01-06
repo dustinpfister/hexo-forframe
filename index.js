@@ -183,11 +183,15 @@ hexo.extend.generator.register('forframe_pages', function (locals) {
 // generate the index.html file at /forframe/index
 hexo.extend.generator.register('forframe_index', function (locals) {
 
-    return readSource().then(function (files) {
+    return readSource()
 
-        return getProject(files[0]);
+    //.then(function (files) {
 
-    }).then(function (ff) {
+    //    return getProject(files[0]);
+
+    //})
+
+    .then(function (files) {
 
         return {
 
@@ -195,7 +199,7 @@ hexo.extend.generator.register('forframe_index', function (locals) {
             data: _.merge(locals, {
                 data: {
 
-                    ff: ff,
+                    files: files,
                     message: 'looks good'
 
                 }
@@ -241,5 +245,29 @@ hexo.extend.helper.register('ff_get_project', function (projectName) {
 hexo.extend.helper.register('ff_get_client', function () {
 
     return '<script src="/forframe/js/forframe.js"></script>';
+
+});
+
+hexo.extend.helper.register('ff_list_projects', function (data) {
+
+    if (data) {
+
+        let html = '<ul>';
+
+        data.files.forEach(function (projectName) {
+
+            let href = '/forframe/projects/' + projectName + '/index.html';
+
+            html += '<li><a href=\"' + href + '\">' + projectName + '<\/a><\/li>'
+
+            //return '<script src="/forframe/js/forframe.js"></script>';
+
+        });
+
+        return html + '<\/ul>';
+
+    }
+
+    return '';
 
 });
