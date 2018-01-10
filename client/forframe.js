@@ -1,26 +1,68 @@
 var forFrame = (function () {
 
-    var api = {
+    var container = document.getElementById('ff') || document.body;
 
-        foo: function () {
+    var initAPI = {
 
-            console.log('this is foo');
-            console.log(this);
+        add: function (type, id, draw) {
+
+            if (type === 'graphics') {
+
+                var obj = {
+
+                    id: id,
+                    disp: this.game.add.graphics(0, 0),
+                    draw: draw || function () {}
+
+                };
+
+                obj.draw.call(obj.disp);
+
+                this.obj.push(obj);
+
+            }
 
         }
 
-    }
+    },
 
-    return function (ff) {
+    ffAPI = {
 
-	    console.log('yes');
-	
-        ff.i = 0;
-        ff.init.call(_.merge(ff, api));
+        get: function (id) {
+
+            return _.find(this.obj, {
+                id: id
+            });
+
+        }
 
     };
 
-}());
+    return function (ff) {
+
+        ff.i = 0;
+        ff.maxFrame = ff.maxFrame || 50;
+        ff.obj = [];
+        ff.game = new Phaser.Game(320, 240, Phaser.AUTO, container, {
+
+                create: function () {
+
+                    ff.init.call(_.merge(ff, initAPI));
+
+                },
+
+                update: function () {
+
+                    ff.forFrame.call(_.merge(ff, ffAPI));
+
+                }
+
+            });
+
+    };
+
+}
+    ());
 
 /*
 var forFrame = (function () {
