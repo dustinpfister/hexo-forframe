@@ -103,11 +103,23 @@ var forFrame = (function () {
 
                     });
 
-                    ff.game.input.onDown.add(function () {
+                    // tick button
+                    var button_tick = this.game.add.graphics(0, ff.height);
+                    button_tick.beginFill(0x0000ff);
+                    button_tick.drawRect(50, 0, 50, 50);
+                    button_tick.endFill();
+                    button_tick.inputEnabled = true;
+                    button_tick.events.onInputDown.add(function () {
+
+                        tick(ff);
+
+                    });
+
+                    //ff.game.input.onDown.add(function () {
 
                         //tick(ff);
 
-                    }, this)
+                    //}, this)
 
                 },
 
