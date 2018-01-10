@@ -5,6 +5,28 @@ _ = require('lodash');
 
 // Helper Methods :
 
+let copyClient = function () {
+
+    return new Promise(function (resolve, reject) {
+
+        let source = path.join(hexo.base_dir, 'node_modules/hexo-forframe/client'),
+        target = path.join(hexo.public_dir,'js');
+
+        fs.copyDir(source, target, function (e, data) {
+
+            if (e) {
+
+                reject(e);
+
+            }
+
+            resolve(data);
+
+        });
+
+    })
+
+};
 
 // copy the source from /source/_forframe to /public/forframe/projects
 let copySource = function () {
@@ -51,29 +73,31 @@ let readSource = function () {
 
 };
 
+/*
 // get the index.js file for the project of the given name
 let getProject = function (name) {
 
-    return new Promise(function (resolve, reject) {
+return new Promise(function (resolve, reject) {
 
-        // the uri of the project should be here
-        let uri = path.join(hexo.source_dir, '_forframe', name, 'index.js');
+// the uri of the project should be here
+let uri = path.join(hexo.source_dir, '_forframe', name, 'index.js');
 
-        fs.readFile(uri, function (e, data) {
+fs.readFile(uri, function (e, data) {
 
-            if (e) {
+if (e) {
 
-                reject(e);
+reject(e);
 
-            }
+}
 
-            resolve(data);
+resolve(data);
 
-        });
+});
 
-    });
+});
 
 };
+ */
 
 // generate the client system *.js file at /forframe/js/forframe.js
 hexo.extend.generator.register('forframe_client', function () {
@@ -98,7 +122,7 @@ hexo.extend.generator.register('forframe_client', function () {
 
     }).then(function (data) {
 
-        // if all goes well create the client */js file
+        // if all goes well create the client
         // to be used
         return {
 
@@ -122,7 +146,13 @@ hexo.extend.generator.register('forframe_client', function () {
 
 hexo.extend.generator.register('forframe_pages', function (locals) {
 
-    return copySource().then(function () {
+    // copy over the client system, and all libs used to /js if not there all ready
+    return copyClient().then(function () {
+
+        // copy of the source for all projects
+        return copySource();
+
+    }).then(function () {
 
         return readSource();
 
