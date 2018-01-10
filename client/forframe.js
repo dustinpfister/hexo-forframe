@@ -68,16 +68,31 @@ var forFrame = (function () {
         ff.forFrame = ff.forFrame || function () {};
 
         // using phaser
-        ff.game = new Phaser.Game(ff.width, ff.height, Phaser.AUTO, container, {
+        ff.game = new Phaser.Game(ff.width, ff.height + 50, Phaser.AUTO, container, {
 
                 create: function () {
 
                     ff.init.call(_.merge(ff, initAPI));
 
+                    var button_play = this.game.add.graphics(0, ff.height);
+
+                    button_play.beginFill(0x00ff00);
+                    button_play.drawRect(0, 0, ff.width, 50);
+                    button_play.endFill();
+                    button_play.inputEnabled = true;
+
+                    console.log(button_play.events);
+
+                    button_play.events.onInputDown.add(function () {
+
+                        //console.log('foo');
+						tick(ff);
+
+                    });
+
                     ff.game.input.onDown.add(function () {
 
-                        console.log('yeah');
-                        tick(ff);
+                        //tick(ff);
 
                     }, this)
 
