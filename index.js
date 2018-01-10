@@ -195,7 +195,8 @@ hexo.extend.helper.register('ff_get_project', function (projectName) {
 // link to the client system
 hexo.extend.helper.register('ff_get_client', function () {
 
-    return '<script src="/js/phaser/2.8.8/phaser.min.js"></script>\n' +
+    return '<script src="/js/lodash/4.17.4/lodash.js"></script>\n' +
+    '<script src="/js/phaser/2.8.8/phaser.min.js"></script>\n' +
     '<script src="/js/forframe.js"></script>';
 
 });
