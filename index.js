@@ -34,7 +34,7 @@ let copySource = function () {
     return new Promise(function (resolve, reject) {
 
         let source = path.join(hexo.source_dir, '_forframe'),
-        target = path.join(hexo.public_dir, 'forframe', 'project');
+        target = path.join(hexo.public_dir, 'forframe', 'projects');
 
         fs.copyDir(source, target, function (e, data) {
 
@@ -192,7 +192,7 @@ hexo.extend.helper.register('ff_get_project', function (projectName) {
 
     if (projectName) {
 
-        return '<script src="/forframe/project/' + projectName + '/index.js"></script>';
+        return '<script src="/forframe/projects/' + projectName + '/index.js"></script>';
 
     }
 
