@@ -27,6 +27,7 @@ var forFrame = (function () {
 
     },
 
+    // forFrame method api
     ffAPI = {
 
         get: function (id) {
@@ -39,16 +40,14 @@ var forFrame = (function () {
 
     },
 
+    // play / pause
     play = function (ff) {
-
-        console.log('play');
 
         ff.play = !ff.play;
 
-        console.log(ff.play);
-
     },
 
+    // tick the animation
     tick = function (ff) {
 
         // step fram index
@@ -61,6 +60,7 @@ var forFrame = (function () {
 
     };
 
+    // return the method that will be called when making the animation
     return function (ff) {
 
         // set starting values
@@ -81,9 +81,15 @@ var forFrame = (function () {
         // using phaser
         ff.game = new Phaser.Game(ff.width, ff.height + 50, Phaser.AUTO, container, {
 
+                // phaser create state method
                 create: function () {
 
+                    // call the animations ini method here
                     ff.init.call(_.merge(ff, initAPI));
+
+                    // be sure to do this so phaser does not
+                    // scroll to the top on mobile
+                    ff.game.scale.compatibility.scrollTo = false;
 
                     // play button
                     var button_play = this.game.add.graphics(0, ff.height);
@@ -105,6 +111,7 @@ var forFrame = (function () {
 
                 },
 
+                // phaser update method
                 update: function () {
 
                     // set per, and bias values for the current frame
