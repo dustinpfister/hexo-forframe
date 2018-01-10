@@ -39,6 +39,16 @@ var forFrame = (function () {
 
     },
 
+    play = function (ff) {
+
+        console.log('play');
+
+        ff.play = !ff.play;
+
+        console.log(ff.play);
+
+    },
+
     tick = function (ff) {
 
         // step fram index
@@ -59,6 +69,7 @@ var forFrame = (function () {
         ff.per = 0;
         ff.bias = 0;
         ff.obj = [];
+        ff.play = true;
         ff.width = ff.width || 320;
         ff.height = ff.height || 240;
         ff.name = ff.name || 'untitled';
@@ -74,19 +85,15 @@ var forFrame = (function () {
 
                     ff.init.call(_.merge(ff, initAPI));
 
+                    // play button
                     var button_play = this.game.add.graphics(0, ff.height);
-
                     button_play.beginFill(0x00ff00);
-                    button_play.drawRect(0, 0, ff.width, 50);
+                    button_play.drawRect(0, 0, 50, 50);
                     button_play.endFill();
                     button_play.inputEnabled = true;
-
-                    console.log(button_play.events);
-
                     button_play.events.onInputDown.add(function () {
 
-                        //console.log('foo');
-						tick(ff);
+                        play(ff);
 
                     });
 
@@ -116,7 +123,11 @@ var forFrame = (function () {
 
                     }
 
-                    //tick(ff);
+                    if (ff.play) {
+
+                        tick(ff);
+
+                    }
 
                 }
 
