@@ -10,7 +10,7 @@ let copyClient = function () {
     return new Promise(function (resolve, reject) {
 
         let source = path.join(hexo.base_dir, 'node_modules/hexo-forframe/client'),
-        target = path.join(hexo.public_dir,'js');
+        target = path.join(hexo.public_dir, 'js');
 
         fs.copyDir(source, target, function (e, data) {
 
@@ -73,77 +73,6 @@ let readSource = function () {
 
 };
 
-/*
-// get the index.js file for the project of the given name
-let getProject = function (name) {
-
-return new Promise(function (resolve, reject) {
-
-// the uri of the project should be here
-let uri = path.join(hexo.source_dir, '_forframe', name, 'index.js');
-
-fs.readFile(uri, function (e, data) {
-
-if (e) {
-
-reject(e);
-
-}
-
-resolve(data);
-
-});
-
-});
-
-};
- */
-
-// generate the client system *.js file at /forframe/js/forframe.js
-hexo.extend.generator.register('forframe_client', function () {
-
-    return new Promise(function (resolve, reject) {
-
-        // the client should be here
-        let uri = path.join(hexo.base_dir, 'node_modules/hexo-forframe/client', 'forframe.js');
-
-        // get the client
-        fs.readFile(uri, function (e, data) {
-
-            if (e) {
-
-                reject(e);
-
-            }
-
-            resolve(data);
-
-        });
-
-    }).then(function (data) {
-
-        // if all goes well create the client
-        // to be used
-        return {
-
-            path: 'forframe/js/forframe.js',
-            data: data
-
-        };
-
-    }).catch (function () {
-
-        return {
-
-            path: 'forframe/js/forframe.js',
-            data: 'var forFrame={};'
-
-        };
-
-    });
-
-});
-
 hexo.extend.generator.register('forframe_pages', function (locals) {
 
     // copy over the client system, and all libs used to /js if not there all ready
@@ -152,7 +81,7 @@ hexo.extend.generator.register('forframe_pages', function (locals) {
         // copy of the source for all projects
         return copySource();
 
-    }).then(function () {
+    }).then(function (files) {
 
         return readSource();
 
@@ -274,7 +203,7 @@ hexo.extend.helper.register('ff_get_project', function (projectName) {
 // link to the client system
 hexo.extend.helper.register('ff_get_client', function () {
 
-    return '<script src="/forframe/js/forframe.js"></script>';
+    return '<script src="/js/forframe.js"></script>';
 
 });
 
