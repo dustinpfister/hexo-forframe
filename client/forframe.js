@@ -51,10 +51,10 @@ var forFrame = (function () {
     tick = function (ff) {
 
         // step fram index
-        ff.i += 1;
-        if (ff.i >= ff.maxFrame) {
+        ff.frame += 1;
+        if (ff.frame >= ff.maxFrame) {
 
-            ff.i = 0;
+            ff.frame = 0;
 
         }
 
@@ -64,7 +64,7 @@ var forFrame = (function () {
     return function (ff) {
 
         // set starting values
-        ff.i = 0;
+        ff.frame = 0;
         ff.maxFrame = ff.maxFrame || 50;
         ff.per = 0;
         ff.bias = 0;
@@ -127,7 +127,7 @@ var forFrame = (function () {
                 update: function () {
 
                     // set per, and bias values for the current frame
-                    ff.per = ff.i / ff.maxFrame;
+                    ff.per = ff.frame / ff.maxFrame;
                     ff.bias = 1 - Math.abs(.5 - ff.per) / .5;
 
                     ff.forFrame.call(_.merge(ff, ffAPI));
@@ -150,7 +150,7 @@ var forFrame = (function () {
 
                 }
 
-            });
+            }, true);
 
     };
 

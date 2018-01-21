@@ -4,7 +4,6 @@ path = require('path'),
 _ = require('lodash');
 
 // Helper Methods :
-
 let copyClient = function () {
 
     return new Promise(function (resolve, reject) {
