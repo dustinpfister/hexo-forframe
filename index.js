@@ -205,17 +205,22 @@ hexo.extend.helper.register('ff_list_projects', function (data) {
 
     if (data) {
 
-        let html = '<ul>';
+        let html = '<div class="ff_index">';
 
         data.files.forEach(function (projectName) {
 
-            let href = '/forframe/projects/' + projectName + '/index.html';
+            let dir_base = path.join('/forframe/projects/', projectName),
+            dir_link = path.join(dir_base, 'index.html'),
+            dir_thum = path.join(dir_base, 'thum_32.png');
 
-            html += '<li><a href=\"' + href + '\">' + projectName + '<\/a><\/li>'
+            html += '<div class="ff_card">';
+            html += '<a href="' + dir_link + '">' + projectName + '<\/a>' ;
+            html += '<a href="' + dir_link + '">';
+            html += '<img class="ff_thum\" src="' + dir_thum + '"></a><\/div>';
 
         });
 
-        return html + '<\/ul>';
+        return html + '<\/div>';
 
     }
 
