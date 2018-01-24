@@ -96,7 +96,8 @@ hexo.extend.generator.register('forframe_pages', function (locals) {
                         data: {
                             message: 'success',
                             projectName: projectName
-                        }
+                        },
+						noSidebar : true
                     }),
                     layout: 'forframe_project'
 
@@ -112,7 +113,8 @@ hexo.extend.generator.register('forframe_pages', function (locals) {
 
                     message: 'success'
 
-                }
+                },
+				noSidebar : true
             }),
             layout: 'forframe_project'
 
