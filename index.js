@@ -214,9 +214,10 @@ hexo.extend.helper.register('ff_list_projects', function (data) {
             dir_thum = path.join(dir_base, 'thum_32.png');
 
             html += '<div class="ff_card">';
-            html += '<a href="' + dir_link + '">' + projectName + '<\/a>' ;
             html += '<a href="' + dir_link + '">';
-            html += '<img class="ff_thum\" src="' + dir_thum + '"></a><\/div>';
+            html += '<img class="ff_thum\" src="' + dir_thum + '"></a>';
+            html += '<p><a href="' + dir_link + '">' + projectName + '<\/a></p>';
+            html += '<\/div>';
 
         });
 
